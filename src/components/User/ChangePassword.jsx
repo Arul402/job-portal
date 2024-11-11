@@ -65,12 +65,16 @@ function ChangePassword() {
       setLoading(false);
     }
   };
+  const handleDrawerClose = (isDrawerOpen) => {
+    setIsOpen(isDrawerOpen);
+    if (!isDrawerOpen) navigate("/profile");
+  };
   if(loading){
     return <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />
   }
 
   return (
-    <Drawer open={isOpen} onOpenChange={setIsOpen}>
+    <Drawer open={isOpen} onOpenChange={handleDrawerClose}>
       <DrawerContent>
         <DrawerHeader>
           <DrawerTitle>Change Password</DrawerTitle>
@@ -93,7 +97,7 @@ function ChangePassword() {
           </Button>
         </form>
         <DrawerFooter>
-          <Button variant="outline" onClick={() => setIsOpen(false)}>Cancel</Button>
+          <Button variant="outline" onClick={() => {setIsOpen(false);handleDrawerClose()}}>Cancel</Button>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>

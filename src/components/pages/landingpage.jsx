@@ -41,25 +41,41 @@ const LandingPage = ({type}) => {
       <div className="flex gap-6 justify-center">
       {type === "Candidate" ? (
     <Link to="/jobs">
-      <Button variant="blue" size="xl">
+      <Button 
+      // variant="blue" 
+      className=" bg-white text-black rounded-lg"
+      size="xl">
         Find Jobs
       </Button>
     </Link>
   ) : type === "Recruiter" ? (
     <Link to="/post-job">
-      <Button variant="destructive" size="xl">
+      <Button 
+      // variant="destructive"
+      className=" bg-white text-black rounded-lg"
+       size="xl">
         Post a Job
       </Button>
     </Link>
   ) : (
     <>
       <Link to="/jobs">
-        <Button variant="blue" size="xl">
+        <Button 
+        // variant="blue" 
+        size="xl" 
+        // type="submit"
+        className=" bg-white text-black rounded-lg"
+          // variant="outline"
+          >
           Find Jobs
         </Button>
       </Link>
       <Link to="/post-job">
-        <Button variant="destructive" size="xl">
+        <Button 
+        // variant="destructive" 
+        size="xl"
+        className=" bg-white text-black rounded-lg"
+        >
           Post a Job
         </Button>
       </Link>

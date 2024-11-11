@@ -67,7 +67,7 @@ const ApplicationForm = () => {
       setSubmissionStatus("Application submitted successfully!");
       setIsOpen(false);
       alert("Application Submitted successfully!");
-      navigate("/candidate")
+      navigate("/applied-jobs")
     } catch (error) {
       console.error("Error submitting application:", error);
       setSubmissionStatus("Error submitting application. Please try again.");
@@ -78,7 +78,7 @@ const ApplicationForm = () => {
 
   const handleDrawerClose = (isDrawerOpen) => {
     setIsOpen(isDrawerOpen);
-    if (!isDrawerOpen) navigate("/candidate"); // Navigate to /candidate if the drawer is closed
+    if (!isDrawerOpen) navigate(`/job/${id}`); // Navigate to /candidate if the drawer is closed
   };
 
   if (loading) {

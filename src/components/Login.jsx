@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { Button } from './ui/button';
 import axios from 'axios';
+import { Bounce, ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 import {
   Drawer,
   DrawerClose,
@@ -31,6 +33,7 @@ import { Input } from "../components/ui/input"; // Import the custom Input compo
 import config from '../functions/config';
 import LandingPage from './pages/landingpage';
 import { ScrollArea } from './ui/scroll-area';
+import { ToastProvider } from './ui/toast';
 // import config from '@/functions/config';
 
 function Login() {
@@ -49,10 +52,11 @@ function Login() {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const phoneRegex = /^\d{10,15}$/;
     const navigate = useNavigate();
-    const { toast } = useToast(); // Destructure the toast function
+    // const { toast } = useToast(); // Destructure the toast function
   
     const [username, setUsername] = useState("");
       const [password, setPassword] = useState("");
+      // const { toast } = useToast()
   
   
       async function handleSubmit() {
@@ -63,7 +67,13 @@ function Login() {
   
           // Validate if the fields are filled
           if (username === "" || password === "") {
-              // toast.error("Please fill in both email and password fields.");
+            // showToast("Login failed", "Please fill in both email and password fields.")
+            // toast({
+            //   title: 'Login failed',
+            //   description: 'Please fill in both email and password fields.',
+            //   variant: 'destructive',
+            // });
+              toast.error("Please fill in both email and password fields.");
               return;
           }
           // setLoading(true);
@@ -97,11 +107,14 @@ function Login() {
                   }
                   setIsOpen(false)
               } else {
+                // showToast("Login failed", "Please try again.")
                   // toast.error("Login failed. Please try again.");
+
               }
   
           } catch (error) {
-              alert("Invalid credentials. Please try again.")
+            toast.info("Invalid credentials. Please try again.");
+              // alert("Invalid credentials. Please try again.")
               // toast.error("Invalid credentials. Please try again.");
           }finally {
               // Ensure loading state is set back to false after API call
@@ -147,27 +160,30 @@ function Login() {
   
       // Validation logic
       if (!first_name || !last_name || !email || !phone_number || !place) {
-        toast({
-          title: 'Error',
-          description: 'All fields must be filled.',
-          variant: 'destructive',
-        });
+        // toast({
+        //   title: 'Error',
+        //   description: 'All fields must be filled.',
+        //   variant: 'destructive',
+        // });
+        toast.error("All fields must be filled.");
         return;
       }
       if (!validateEmail(email)) {
-        toast({
-          title: 'Error',
-          description: 'Invalid email format.',
-          variant: 'destructive',
-        });
+        // toast({
+        //   title: 'Error',
+        //   description: 'Invalid email format.',
+        //   variant: 'destructive',
+        // });
+        toast.error("Invalid email format.");
         return;
       }
       if (!validatePhoneNumber(phone_number)) {
-        toast({
-          title: 'Error',
-          description: 'Phone number must be 10 digits.',
-          variant: 'destructive',
-        });
+        // toast({
+        //   title: 'Error',
+        //   description: 'Phone number must be 10 digits.',
+        //   variant: 'destructive',
+        // });
+        toast.error("Phone number must be 10 digits.");
         return;
       }
   
@@ -183,54 +199,60 @@ function Login() {
           clearForm();
           sessionStorage.setItem('username', data.first_name);
           // navigate('/login');
-          toast({
-            title: 'Success',
-            description: 'User created successfully. Password sent to your email.',
-            variant: 'success',
-          });
+          // toast({
+          //   title: 'Success',
+          //   description: 'User created successfully. Password sent to your email.',
+          //   variant: 'success',
+          // });
+          toast("Password sent to your email.");
           setIsJobSeekerSignupOpen(false);
         } else {
-          toast({
-            title: 'Error',
-            description: 'User creation failed. Try again.',
-            variant: 'destructive',
-          });
+          // toast({
+          //   title: 'Error',
+          //   description: 'User creation failed. Try again.',
+          //   variant: 'destructive',
+          // });
+          toast.error("User creation failed. Try again.");
         }
       } catch (error) {
-        toast({
-          title: 'Error',
-          description: 'An unexpected error occurred.',
-          variant: 'destructive',
-        });
+        // toast({
+        //   title: 'Error',
+        //   description: 'An unexpected error occurred.',
+        //   variant: 'destructive',
+        // });
+        toast.error("An unexpected error occurred.");
       }
     }
   
     // Jobprovider Signup
     async function handleJobProviderSignup() {
       if (!first_name || !last_name || !email || !phone_number || !place) {
-        toast({
-          title: 'Error',
-          description: 'All fields must be filled.',
-          variant: 'destructive',
-        });
+        // toast({
+        //   title: 'Error',
+        //   description: 'All fields must be filled.',
+        //   variant: 'destructive',
+        // });
+        toast.error("All fields must be filled.");
         return;
       }
   
       if (!validateEmail(email)) {
-        toast({
-          title: 'Error',
-          description: 'Please enter a valid email address.',
-          variant: 'destructive',
-        });
+        // toast({
+        //   title: 'Error',
+        //   description: 'Please enter a valid email address.',
+        //   variant: 'destructive',
+        // });
+        toast.error("Invalid email format.");
         return;
       }
   
       if (!validatePhoneNumber(phone_number)) {
-        toast({
-          title: 'Error',
-          description: 'Phone number should be between 10-15 digits long.',
-          variant: 'destructive',
-        });
+        // toast({
+        //   title: 'Error',
+        //   description: 'Phone number should be between 10-15 digits long.',
+        //   variant: 'destructive',
+        // });
+        toast.error("Phone number must be 10 digits.");
         return;
       }
   
@@ -253,25 +275,28 @@ function Login() {
           
           clearForm();
           // navigate('/login');
-          toast({
-            title: 'Success',
-            description: 'Company created successfully. Password sent to your email.',
-            variant: 'success',
-          });
+          // toast({
+          //   title: 'Success',
+          //   description: 'Company created successfully. Password sent to your email.',
+          //   variant: 'success',
+          // });
+          toast("Password sent to your email.");
           setIsJobProviderSignupOpen(false);
         } else {
-          toast({
-            title: 'Error',
-            description: 'Registration failed. Try again!',
-            variant: 'destructive',
-          });
+          // toast({
+          //   title: 'Error',
+          //   description: 'Registration failed. Try again!',
+          //   variant: 'destructive',
+          // });
+          toast.error("Registration failed. Try again!");
         }
       } catch (error) {
-        toast({
-          title: 'Error',
-          description: 'Registration failed!',
-          variant: 'destructive',
-        });
+        // toast({
+        //   title: 'Error',
+        //   description: 'Registration failed!',
+        //   variant: 'destructive',
+        // });
+        toast.error("An unexpected error occurred.");
         console.error("Error during registration:", error);
       }
     }
@@ -282,10 +307,19 @@ function Login() {
       setIsOpen(isDrawerOpen);
       if (!isDrawerOpen) navigate("/"); // Navigate to /candidate if the drawer is closed
     };
+
+    // const showToast = (title, description, variant = 'default') => {
+    //   toast({ title, description, variant });
+    // };
     
   return (
     // <div>Login</div>
     <>
+    {/* <ToastProvider> */}
+    <ToastContainer
+    theme="dark"
+    transition={Bounce}
+    />
     <LandingPage/>
 
 <Drawer open={isOpen} onOpenChange={handleDrawerClose}>
@@ -299,11 +333,13 @@ function Login() {
             <label htmlFor="email">Email</label>
             <Input type="email" id="email" placeholder="Enter your email"
              value={username} onChange={(e)=>setUsername(e.target.value)} 
+             className="mb-3 mt-2"
              required />
-
+  
             <label htmlFor="password">Password</label>
             <Input type="password" id="password" placeholder="Enter your password"
              value={password} onChange={(e)=>setPassword(e.target.value)}
+             className="mb-3 mt-2"
               required  />
 
             <p className="mt-2">
@@ -410,7 +446,7 @@ function Login() {
           </ScrollArea>
         </DrawerContent>
       </Drawer>
-    
+      {/* </ToastProvider> */}
     </>
   )
 }
