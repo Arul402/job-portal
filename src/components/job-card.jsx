@@ -197,6 +197,7 @@ const JobCard = ({
             More Details
           </Button>
         </Link>
+        
         {!isMyJob && (
           <Button
             variant="outline"

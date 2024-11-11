@@ -14,6 +14,8 @@ import {
   SheetTitle,
 } from "../ui/sheet";
 import { FaBuilding, FaLock } from "react-icons/fa";
+import BuildingImage from '../../assets/building.png'
+import LockImage from '../../assets/lock.png'
 
 const CompanyProfile = () => {
   const [openSheet, setOpenSheet] = useState(null);
@@ -105,8 +107,9 @@ const CompanyProfile = () => {
         onClick={() => handleOpenSheet("companyInfo")}
         className="flex flex-col items-center justify-center w-96 h-80 font-bold text-lg md:w-96 md:h-64 sm:w-60 sm:h-52"
       >
-        <FaBuilding style={{ fontSize: "3rem" }} className="text-[3rem] mb-2" />
-        Company Info & Photo
+        {/* <FaBuilding style={{ fontSize: "3rem" }} className="text-[3rem] mb-2" /> */}
+        <img src={BuildingImage} className="w-24 h-24 rounded-full" />
+        Company Info 
       </Button>
 
       {/* Change Password Button */}
@@ -115,7 +118,8 @@ const CompanyProfile = () => {
         onClick={() => navigate('/company-password-change')}
         className="flex flex-col items-center justify-center w-96 h-80 font-bold text-lg md:w-96 md:h-64 sm:w-60 sm:h-52"
       >
-        <FaLock style={{ fontSize: "3rem" }} className="text-[3rem] mb-2" />
+        {/* <FaLock style={{ fontSize: "3rem" }} className="text-[3rem] mb-2" /> */}
+        <img src={LockImage} className="w-24 h-24 rounded-full" />
         Change Password
       </Button>
 

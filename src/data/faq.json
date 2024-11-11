@@ -1,7 +1,7 @@
 [
     {
-      "question": "What is Hirrd?",
-      "answer": "Hirrd is a Job Portal Application allows companies to post job listings and users to search and apply for jobs. It provides features for both job seekers and employers, with user-friendly interfaces and secure authentication."
+      "question": "What is Job Site?",
+      "answer": "Job Site is a Job Portal Application allows companies to post job listings and users to search and apply for jobs. It provides features for both job seekers and employers, with user-friendly interfaces and secure authentication."
     },
     {
       "question": "How do I post a job?",
@@ -21,6 +21,6 @@
     },
     {
       "question": "How do I track my job applications?",
-      "answer": "Job seekers can track the status of their applications from the 'Applications' section in their profile. This section provides updates on the progress of each application."
+      "answer": "Job seekers can track the status of their applications from the 'Applied Jobs' section in their profile. This section provides updates on the progress of each application."
     }
   ]
