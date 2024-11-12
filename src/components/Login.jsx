@@ -409,13 +409,14 @@ function Login() {
       </AlertDialogDescription>
     </AlertDialogHeader>
     <AlertDialogFooter className="flex flex-col gap-2 sm:flex-row">
-      <AlertDialogCancel onClick={() => setIsDialogOpen(false)} className="w-full sm:w-auto">Cancel</AlertDialogCancel>
+     
       <AlertDialogAction onClick={() => handleUserTypeSelect("Jobseeker")} className="w-full sm:w-auto">
         Jobseeker
       </AlertDialogAction>
       <AlertDialogAction onClick={() => handleUserTypeSelect("Jobprovider")} className="w-full sm:w-auto">
         Jobprovider
       </AlertDialogAction>
+      <AlertDialogCancel onClick={() => setIsDialogOpen(false)} className="w-full sm:w-auto">Cancel</AlertDialogCancel>
     </AlertDialogFooter>
   </AlertDialogContent>
 </AlertDialog>
