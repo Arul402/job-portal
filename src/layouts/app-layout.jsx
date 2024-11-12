@@ -20,7 +20,7 @@ const AppLayout = () => {
         </main>
         <div className="p-5 text-center bg-gray-800 mt-5">
          {/* Developed by Job Site Team */}
-         © 2024
+         © Job Site 2024
        </div>
        </ScrollArea>
         

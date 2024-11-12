@@ -15,6 +15,7 @@ import {
 import { useToast } from "../components/ui/use-toast"; // Import the useToast hook
 import PopOver from './User/PopOver';
 import config from '../functions/config';
+import JobsiteLogo from '../assets/logo2.png'
 
 function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -50,7 +51,7 @@ function Header() {
   return (
     <nav className="py-4 flex justify-between items-center">
       <Link to="">
-        <img src="/logo3.png" className="h-14 md:h-12 sm:h-10 xs:h-8" alt="Hirrd Logo" />
+        <img src={JobsiteLogo} className="h-14 md:h-12 sm:h-10 xs:h-8" alt="Hirrd Logo" />
       </Link>
 
       {isLoggedIn ? (
