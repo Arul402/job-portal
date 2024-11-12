@@ -105,7 +105,7 @@ const CompanyProfile = () => {
       <Button
         variant="outline"
         onClick={() => handleOpenSheet("companyInfo")}
-        className="flex flex-col items-center justify-center w-96 h-80 font-bold text-lg md:w-96 md:h-64 sm:w-60 sm:h-52"
+        className="flex flex-col items-center justify-center w-96 h-80 font-bold text-lg md:w-72 md:h-64 sm:w-60 sm:h-52"
       >
         {/* <FaBuilding style={{ fontSize: "3rem" }} className="text-[3rem] mb-2" /> */}
         <img src={BuildingImage} className="w-24 h-24 rounded-full" />
@@ -116,7 +116,7 @@ const CompanyProfile = () => {
       <Button
         variant="outline"
         onClick={() => navigate('/company-password-change')}
-        className="flex flex-col items-center justify-center w-96 h-80 font-bold text-lg md:w-96 md:h-64 sm:w-60 sm:h-52"
+        className="flex flex-col items-center justify-center w-96 h-80 font-bold text-lg md:w-72 md:h-64 sm:w-60 sm:h-52"
       >
         {/* <FaLock style={{ fontSize: "3rem" }} className="text-[3rem] mb-2" /> */}
         <img src={LockImage} className="w-24 h-24 rounded-full" />

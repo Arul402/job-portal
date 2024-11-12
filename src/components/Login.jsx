@@ -50,7 +50,9 @@ function Login() {
     const [place, setPlace] = useState('');
   //   const [loading, setLoading] = useState(false);
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    const phoneRegex = /^\d{10,15}$/;
+    // const phoneRegex = /^\d{10,15}$/;
+    const phoneRegex = /^\d{10}$/;
+
     const navigate = useNavigate();
     // const { toast } = useToast(); // Destructure the toast function
   
@@ -215,12 +217,24 @@ function Login() {
           toast.error("User creation failed. Try again.");
         }
       } catch (error) {
+        if (error.response) {
+          const { status, data } = error.response;
+          if (status === 400) {
+              toast.error(data.error || "User with this email already exists.");
+          } else if (status === 500) {
+              toast.error("Server error. Please try again later.");
+          } else {
+              toast.error("An unexpected error occurred.");
+          }
+      } else {
+          toast.error("Network error. Please check your connection.");
+      }
         // toast({
         //   title: 'Error',
         //   description: 'An unexpected error occurred.',
         //   variant: 'destructive',
         // });
-        toast.error("An unexpected error occurred.");
+        // toast.error("An unexpected error occurred.");
       }
     }
   
@@ -282,6 +296,7 @@ function Login() {
           // });
           toast("Password sent to your email.");
           setIsJobProviderSignupOpen(false);
+
         } else {
           // toast({
           //   title: 'Error',
@@ -291,12 +306,25 @@ function Login() {
           toast.error("Registration failed. Try again!");
         }
       } catch (error) {
+        if (error.response) {
+          const { status, data } = error.response;
+          if (status === 400) {
+              toast.error(data.error || "User with this email already exists.");
+          } else if (status === 500) {
+              toast.error("Server error. Please try again later.");
+          } else {
+              toast.error("An unexpected error occurred.");
+          }
+      } else {
+          toast.error("Network error. Please check your connection.");
+      }
         // toast({
         //   title: 'Error',
         //   description: 'Registration failed!',
         //   variant: 'destructive',
         // });
-        toast.error("An unexpected error occurred.");
+        // if(st)
+        // toast.error("An unexpected error occurred.");
         console.error("Error during registration:", error);
       }
     }
@@ -344,7 +372,7 @@ function Login() {
 
             <p className="mt-2">
               Don't have an Account? 
-              <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+              {/* <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <AlertDialogTrigger className="text-blue-500" onClick={handleSignUpClick}>Sign Up</AlertDialogTrigger><br/><br/>
                 <AlertDialogContent>
                   <AlertDialogHeader>
@@ -359,7 +387,40 @@ function Login() {
                     <AlertDialogAction onClick={() => handleUserTypeSelect("Jobprovider")}>Jobprovider</AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
-              </AlertDialog>
+              </AlertDialog> */}
+
+<AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+  <AlertDialogTrigger className="text-blue-500" onClick={handleSignUpClick}>Sign Up</AlertDialogTrigger><br/><br/>
+  <AlertDialogContent 
+    className="p-6 rounded-lg shadow-md w-full max-w-xs sm:max-w-md mx-auto"
+    style={{
+      // maxWidth: "50vw",
+      margin: "0 auto", // Centers the dialog
+    }}
+  >
+    <AlertDialogHeader>
+      <AlertDialogTitle 
+      // className="sm:text-center text-base sm:text-xl"
+      >Select Your Role</AlertDialogTitle>
+      <AlertDialogDescription 
+      // className="text-center text-xs sm:text-base"
+      >
+        Please select whether you are a Jobseeker or Jobprovider.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter className="flex flex-col gap-2 sm:flex-row">
+      <AlertDialogCancel onClick={() => setIsDialogOpen(false)} className="w-full sm:w-auto">Cancel</AlertDialogCancel>
+      <AlertDialogAction onClick={() => handleUserTypeSelect("Jobseeker")} className="w-full sm:w-auto">
+        Jobseeker
+      </AlertDialogAction>
+      <AlertDialogAction onClick={() => handleUserTypeSelect("Jobprovider")} className="w-full sm:w-auto">
+        Jobprovider
+      </AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+
+
             </p>
             
             <Button type="submit" 

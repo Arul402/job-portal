@@ -3,16 +3,18 @@ import axios from 'axios';
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerFooter } from '../ui/Drawer';
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { useToast } from '../ui/use-toast';
+// import { useToast } from '../ui/use-toast';
 import { BarLoader } from 'react-spinners';
 import config from '../../functions/config';
 import { useNavigate } from 'react-router-dom';
+import { Bounce, ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 function ChangePassword() {
   const [oldPassword, setOldPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { toast } = useToast();
+  // const { toast } = useToast();
   const email = sessionStorage.getItem('email');
   const token = sessionStorage.getItem('user_token');
   const [isOpen, setIsOpen] = useState(true);
@@ -30,11 +32,12 @@ function ChangePassword() {
     e.preventDefault();
     const validationError = validatePassword(newPassword);
     if (validationError) {
-      toast({
-        title: "Error",
-        description: validationError,
-        variant: "destructive",
-      });
+      // toast({
+      //   title: "Error",
+      //   description: validationError,
+      //   variant: "destructive",
+      // });
+      toast.error(validationError);
       return;
     }
 
@@ -47,20 +50,17 @@ function ChangePassword() {
       );
 
       if (response.status === 200) {
-        toast({
-          title: "Success",
-          description: "Password changed successfully!",
-          variant: "positive",
-        });
+        // toast({
+        //   title: "Success",
+        //   description: "Password changed successfully!",
+        //   variant: "positive",
+        // });
+        toast.success("Password changed successfully!");
         setIsOpen(false);
         navigate('/candidate')
       }
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to change password. Check your old password.",
-        variant: "destructive",
-      });
+      toast.error("Failed to change password. Check your old password.");
     } finally {
       setLoading(false);
     }
@@ -74,6 +74,11 @@ function ChangePassword() {
   }
 
   return (
+    <>
+    <ToastContainer
+    theme="dark"
+    transition={Bounce}
+    />
     <Drawer open={isOpen} onOpenChange={handleDrawerClose}>
       <DrawerContent>
         <DrawerHeader>
@@ -101,6 +106,7 @@ function ChangePassword() {
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
+    </>
   );
 }
 

@@ -43,7 +43,7 @@ const LandingPage = ({type}) => {
     <Link to="/jobs">
       <Button 
       // variant="blue" 
-      className=" bg-white text-black rounded-lg"
+      className=" bg-white text-black rounded-lg text-sm sm:text-base py-2 px-4 sm:px-6 lg:p-7 lg:w-44 "
       size="xl">
         Find Jobs
       </Button>
@@ -52,11 +52,12 @@ const LandingPage = ({type}) => {
     <Link to="/post-job">
       <Button 
       // variant="destructive"
-      className=" bg-white text-black rounded-lg"
+      className=" bg-white text-black rounded-lg text-sm sm:text-base py-2 px-4 sm:px-6 lg:p-7 lg:w-44"
        size="xl">
         Post a Job
       </Button>
     </Link>
+
   ) : (
     <>
       <Link to="/jobs">
@@ -64,7 +65,7 @@ const LandingPage = ({type}) => {
         // variant="blue" 
         size="xl" 
         // type="submit"
-        className=" bg-white text-black rounded-lg"
+        className="bg-white text-black rounded-lg text-sm sm:text-base py-2 px-4 sm:px-6 lg:p-7 lg:w-44"
           // variant="outline"
           >
           Find Jobs
@@ -74,7 +75,7 @@ const LandingPage = ({type}) => {
         <Button 
         // variant="destructive" 
         size="xl"
-        className=" bg-white text-black rounded-lg"
+        className="bg-white text-black rounded-lg text-sm sm:text-base py-2 px-4 sm:px-6 lg:p-7 lg:w-44"
         >
           Post a Job
         </Button>

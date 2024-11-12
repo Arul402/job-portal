@@ -33,7 +33,7 @@ import { FaUser, FaTools, FaGraduationCap, FaSchool, FaLock } from "react-icons/
 import PopOver from "./PopOver";
 import degreeImage from '../../assets/degree.png';
 import SchoolImage from '../../assets/school.png'
-import ToolsImage from '../../assets/skills.png'
+import ToolsImage from '../../assets/skills2.png'
 import LockImage from '../../assets/lock.png'
 import PersonImage from '../../assets/person.png'
 
@@ -200,7 +200,7 @@ const UserProfile = () => {
 <Button
   variant="outline"
   onClick={() => handleOpenSheet("profileInfo")}
-  className="flex flex-col items-center justify-center w-96 h-80 font-bold text-lg md:w-96 md:h-64 sm:w-60 sm:h-52"
+  className="flex flex-col items-center justify-center w-96 h-80 font-bold text-lg md:w-72 md:h-64 sm:w-60 sm:h-52"
   
 >
   {/* <FaUser 
@@ -238,7 +238,7 @@ className="iconbuttons"
 <Button
   variant="outline"
   onClick={() => handleOpenSheet("academicDetails")}
-  className="flex flex-col items-center justify-center w-96 h-80 font-bold text-lg md:w-96 md:h-64 sm:w-60 sm:h-52"
+  className="flex flex-col items-center justify-center w-96 h-80 font-bold text-lg md:w-72 md:h-64 sm:w-60 sm:h-52"
 >
   {/* <FaSchool className="text-6xl mb-2 " /> */}
   <img src={SchoolImage} className="w-24 h-24 rounded-full" />
@@ -249,7 +249,7 @@ className="iconbuttons"
 <Button
         variant="outline"
         onClick={() => navigate('/changepass')}
-        className="flex flex-col items-center justify-center w-96 h-80 font-bold text-lg md:w-96 md:h-64 sm:w-60 sm:h-52"
+        className="flex flex-col items-center justify-center w-96 h-80 font-bold text-lg md:w-72 md:h-64 sm:w-60 sm:h-52"
       >
         {/* <FaLock style={{ fontSize: "3rem" }} className="text-[3rem] mb-2" /> */}
         <img src={LockImage} className="w-24 h-24 rounded-full" />
