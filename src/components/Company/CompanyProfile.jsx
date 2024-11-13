@@ -6,6 +6,8 @@ import { ScrollArea } from '../ui/scroll-area';
 import axios from 'axios';
 import config from "../../functions/config";
 import { useNavigate } from "react-router-dom";
+import { Bounce, ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 import {
   Sheet,
   SheetContent,
@@ -16,12 +18,18 @@ import {
 import { FaBuilding, FaLock } from "react-icons/fa";
 import BuildingImage from '../../assets/building.png'
 import LockImage from '../../assets/lock.png'
+import Editimage from '../../assets/skills.png'
 
 const CompanyProfile = () => {
   const [openSheet, setOpenSheet] = useState(null);
   const [profile, setProfile] = useState({
     company_name: '',
     company_photo: null,
+    first_name: '',
+    last_name: '',
+    email: '',
+    phone_number: '',
+    place: '',
     id: null,
   });
   const [photo, setPhoto] = useState();
@@ -39,7 +47,7 @@ const CompanyProfile = () => {
     setChanges({ ...changes, [name]: value });
   };
 
-  const handleFileChange = (e) => {
+    const handleFileChange = (e) => {
     const { name, files } = e.target;
     setProfile({ ...profile, [name]: files[0] });
     setChanges({ ...changes, [name]: files[0] });
@@ -79,19 +87,39 @@ const CompanyProfile = () => {
       setChanges({});
       handleCloseSheet();
       fetchProfile();
-      // sessionStorage.setItem("Comprofile","updated")
-      sessionStorage.setItem("Companyphoto",photo)
+      sessionStorage.setItem("Companyphoto", photo);
     } catch (error) {
-      console.error("Error updating company profile:", error);
+      if (error.response) {
+        const { status, data } = error.response;
+  
+        if (status === 400) {
+          // Check if the backend is returning a specific error for email issues
+          if (data.error) {
+            toast.error(data.error);  // Show specific error message if provided
+          } else if (data.email) {
+            toast.error(data.email[0]);  // Show email-related validation error
+          } else {
+            toast.error("An unexpected error occurred.");
+          }
+        } else if (status === 500) {
+          toast.error("Server error. Please try again later.");
+        } else {
+          toast.error("An unexpected error occurred.");
+        }
+      } else {
+        // Handle network error
+        toast.error("Network error. Please check your connection.");
+      }
+
+      // console.error("Error updating company profile:", error);
     } finally {
       setLoading(false);
     }
   };
+
   useEffect(() => {
-    if (photo) {
-      // setPhotos(`${config.base_url}${profile.photo}`);
-      // console.log(`${config.base_url}${profile.photo}`); // Check the photo URL
-      sessionStorage.setItem("Companyphoto",photo)
+    if (profile.company_photo) {
+      sessionStorage.setItem("Companyphoto", profile.company_photo);
     }
   }, [profile]);
 
@@ -101,15 +129,27 @@ const CompanyProfile = () => {
 
   return (
     <div className="flex flex-wrap gap-4 justify-center">
+      <ToastContainer
+    theme="dark"
+    transition={Bounce}
+    />
       {/* Buttons to open each profile section */}
       <Button
         variant="outline"
         onClick={() => handleOpenSheet("companyInfo")}
         className="flex flex-col items-center justify-center w-96 h-80 font-bold text-lg md:w-72 md:h-64 sm:w-60 sm:h-52"
       >
-        {/* <FaBuilding style={{ fontSize: "3rem" }} className="text-[3rem] mb-2" /> */}
         <img src={BuildingImage} className="w-24 h-24 rounded-full" />
         Company Info 
+      </Button>
+
+      <Button
+        variant="outline"
+        onClick={() => handleOpenSheet("editProfile")}
+        className="flex flex-col items-center justify-center w-96 h-80 font-bold text-lg md:w-72 md:h-64 sm:w-60 sm:h-52"
+      >
+        <img src={Editimage} className="w-24 h-24 rounded-full" />
+        Edit Profile 
       </Button>
 
       {/* Change Password Button */}
@@ -118,58 +158,179 @@ const CompanyProfile = () => {
         onClick={() => navigate('/company-password-change')}
         className="flex flex-col items-center justify-center w-96 h-80 font-bold text-lg md:w-72 md:h-64 sm:w-60 sm:h-52"
       >
-        {/* <FaLock style={{ fontSize: "3rem" }} className="text-[3rem] mb-2" /> */}
         <img src={LockImage} className="w-24 h-24 rounded-full" />
         Change Password
       </Button>
 
-      {/* Company Info Sheet */}
-      <Sheet open={openSheet === "companyInfo"} onOpenChange={setOpenSheet}>
-        <SheetContent>
-          <SheetHeader>
-            <SheetTitle>Company Profile</SheetTitle>
-            <SheetDescription>Update your company information and upload a company photo.</SheetDescription>
-          </SheetHeader>
-          <ScrollArea orientation="horizontal" className="h-[calc(100vh-150px)] overflow-y-auto">
-            <div className="grid gap-4 py-4">
-              <Label htmlFor="company_name" className="text-right">Company Name</Label>
-              <Input
-                id="company_name"
-                type="text"
-                name="company_name"
-                value={profile.company_name}
-                onChange={handleChange}
-                placeholder="Enter your company name"
-              />
 
-              <Label htmlFor="company_photo" className="text-right">Company Photo</Label>
-              <Input
-                id="company_photo"
-                type="file"
-                accept="image/*"
-                name="company_photo"
-                onChange={handleFileChange}
-              />
-              {photo && (
-                <img
-                  src={photo}
-                  alt="Company"
-                  style={{ width: '100px', height: '100px', borderRadius: '5px' }}
-                />
-              )}
-            </div>
-            <Button onClick={handleSubmit} className="mt-4">
-              Save Profile
-            </Button>
-          </ScrollArea>
-        </SheetContent>
-      </Sheet>
+      {/* Edit Profile Sheet */}
+<Sheet open={openSheet === "editProfile"} onOpenChange={setOpenSheet}>
+  <SheetContent>
+    <SheetHeader>
+      <SheetTitle>Edit Profile</SheetTitle>
+      <SheetDescription>Update your personal contact details.</SheetDescription>
+    </SheetHeader>
+    <ScrollArea orientation="horizontal" className="h-[calc(100vh-150px)] overflow-y-auto">
+      <div className="grid gap-4 py-4">
+        <Label htmlFor="first_name">First Name</Label>
+        <Input
+          id="first_name"
+          type="text"
+          name="first_name"
+          value={profile.first_name}
+          onChange={handleChange}
+          placeholder="Enter your first name"
+        />
+
+        <Label htmlFor="last_name">Last Name</Label>
+        <Input
+          id="last_name"
+          type="text"
+          name="last_name"
+          value={profile.last_name}
+          onChange={handleChange}
+          placeholder="Enter your last name"
+        />
+
+        <Label htmlFor="email">Email</Label>
+        <Input
+          id="email"
+          type="email"
+          name="email"
+          value={profile.email}
+          onChange={handleChange}
+          placeholder="Enter your email"
+        />
+
+        <Label htmlFor="phone_number">Phone Number</Label>
+        <Input
+          id="phone_number"
+          type="text"
+          name="phone_number"
+          value={profile.phone_number}
+          onChange={handleChange}
+          placeholder="Enter your phone number"
+        />
+
+        <Label htmlFor="place">Place</Label>
+        <Input
+          id="place"
+          type="text"
+          name="place"
+          value={profile.place}
+          onChange={handleChange}
+          placeholder="Enter your place"
+        />
+      </div>
+      <Button onClick={handleSubmit} className="mt-4">
+        Save Changes
+      </Button>
+    </ScrollArea>
+  </SheetContent>
+</Sheet>
+
+{/* Company Info Sheet */}
+<Sheet open={openSheet === "companyInfo"} onOpenChange={setOpenSheet}>
+  <SheetContent>
+    <SheetHeader>
+      <SheetTitle>Company Info</SheetTitle>
+      <SheetDescription>Update your company information and upload a company photo.</SheetDescription>
+    </SheetHeader>
+    <ScrollArea orientation="horizontal" className="h-[calc(100vh-150px)] overflow-y-auto">
+      <div className="grid gap-4 py-4">
+        <Label htmlFor="first_name">First Name</Label>
+        <Input
+          id="first_name"
+          type="text"
+          name="first_name"
+          value={profile.first_name}
+          readOnly
+          placeholder="First Name"
+          disabled
+        />
+
+        <Label htmlFor="last_name">Last Name</Label>
+        <Input
+          id="last_name"
+          type="text"
+          name="last_name"
+          value={profile.last_name}
+          readOnly
+          placeholder="Last Name"
+          disabled
+        />
+
+        <Label htmlFor="email">Email</Label>
+        <Input
+          id="email"
+          type="email"
+          name="email"
+          value={profile.email}
+          readOnly
+          placeholder="Email"
+          disabled
+        />
+
+        <Label htmlFor="phone_number">Phone Number</Label>
+        <Input
+          id="phone_number"
+          type="text"
+          name="phone_number"
+          value={profile.phone_number}
+          readOnly
+          placeholder="Phone Number"
+          disabled
+        />
+
+        <Label htmlFor="place">Place</Label>
+        <Input
+          id="place"
+          type="text"
+          name="place"
+          value={profile.place}
+          readOnly
+          placeholder="Place"
+          disabled
+        />
+
+        <Label htmlFor="company_name">Company Name</Label>
+        <Input
+          id="company_name"
+          type="text"
+          name="company_name"
+          value={profile.company_name}
+          onChange={handleChange}
+          placeholder="Enter your company name"
+        />
+
+        <Label htmlFor="company_photo">Company Photo</Label>
+        <Input
+          id="company_photo"
+          type="file"
+          accept="image/*"
+          name="company_photo"
+          onChange={handleFileChange}
+        />
+        {profile.company_photo && (
+          <img
+            src={profile.company_photo}
+            alt="Company"
+            style={{ width: '100px', height: '100px', borderRadius: '5px' }}
+          />
+        )}
+      </div>
+      <Button onClick={handleSubmit} className="mt-4">
+        Save Company Info
+      </Button>
+    </ScrollArea>
+  </SheetContent>
+</Sheet>
+
     </div>
   );
 };
 
 export default CompanyProfile;
-
 
 
 

@@ -91,15 +91,20 @@ const JobPage = () => {
       navigate("/login");
       return;
     }
-
+  
     if (!profile) {
       alert("Profile data is not available.");
       return;
     }
-
+  
+    // Check if user has academic details
+    const { ug_cgpa, tenth_percentage, twelfth_percentage } = profile;
+    if (!ug_cgpa || !tenth_percentage || !twelfth_percentage) {
+      alert("Please complete your academic details in the profile section before applying.");
+      return;
+    }
+  
     try {
-      const jobData = job;
-
       const {
         ug_cgpa_min,
         ug_cgpa_max,
@@ -107,12 +112,13 @@ const JobPage = () => {
         tenth_percentage_max,
         twelfth_percentage_min,
         twelfth_percentage_max,
-      } = jobData;
-
+      } = job;
+  
       const userUGCGPA = parseFloat(profile.ug_cgpa);
       const userTenthPercentage = parseFloat(profile.tenth_percentage);
       const userTwelfthPercentage = parseFloat(profile.twelfth_percentage);
-
+  
+      // Eligibility check
       if (
         !(userUGCGPA >= ug_cgpa_min && userUGCGPA <= ug_cgpa_max) ||
         !(userTenthPercentage >= tenth_percentage_min &&
@@ -120,17 +126,17 @@ const JobPage = () => {
         !(userTwelfthPercentage >= twelfth_percentage_min &&
           userTwelfthPercentage <= twelfth_percentage_max)
       ) {
-        // setEligible(true);
-        alert("Your academic qualifications do not meet the eligibility criteria for this job.");
+        alert("Your academic qualifications does not meet the eligibility criteria for this job.");
         return;
       }
-
+  
       navigate(`/application-form/${id}`);
     } catch (error) {
       console.error("Error validating qualifications:", error);
       alert("Error validating qualifications. Please try again.");
     }
   };
+  
 
   useEffect(() => {
     // Fetch job details
@@ -236,7 +242,7 @@ const JobPage = () => {
           variant="outline"
           size="xl"
           className="flex gap-6 justify-center bg-white text-black "
-          disabled={eligible}
+          // disabled={eligible}
           onClick={handleApplyClick}
         >
           Apply Now

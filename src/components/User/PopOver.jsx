@@ -6,6 +6,7 @@ import axios from 'axios';
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, navigationMenuTriggerStyle } from "../ui/navigation-menu";
 import { Badge } from '../ui/badge'; // Import the Badge component from ShadeCN UI
 import { Button } from '../ui/button';
+import PersonDefaultImg from '../../assets/personimg.png'
 
 function PopOver() {
   const token = sessionStorage.getItem("user_token");
@@ -93,30 +94,7 @@ function PopOver() {
     fetchJobDetails();
   }, []);
 
-  // Filter eligible jobs based on user profile
-  // useEffect(() => {
-  //   if (jobDetails.length > 0 && profile) {
-  //     const eligibleJobs = jobDetails.filter((job) => {
-  //       const { ug_cgpa_min, ug_cgpa_max, tenth_percentage_min, tenth_percentage_max, twelfth_percentage_min, twelfth_percentage_max } = job;
-  //       const userUGCGPA = parseFloat(profile.ug_cgpa);
-  //       const userTenthPercentage = parseFloat(profile.tenth_percentage);
-  //       const userTwelfthPercentage = parseFloat(profile.twelfth_percentage);
 
-  //       return (
-  //         userUGCGPA >= ug_cgpa_min &&
-  //         userUGCGPA <= ug_cgpa_max &&
-  //         userTenthPercentage >= tenth_percentage_min &&
-  //         userTenthPercentage <= tenth_percentage_max &&
-  //         userTwelfthPercentage >= twelfth_percentage_min &&
-  //         userTwelfthPercentage <= twelfth_percentage_max
-  //       );
-  //     });
-
-  //     setFilteredJobs(eligibleJobs);
-  //     // Show badge only if there are eligible jobs
-  //     // setShowBadge(eligibleJobs.length > 0);
-  //   }
-  // }, [jobDetails, profile]);
 
   useEffect(() => {
     const fetchJobDetails = async () => {
@@ -263,27 +241,6 @@ function PopOver() {
     }
   };
 
-//   const [userprofile, setUserprofile] = useState(sessionStorage.getItem("profile")?true:false);
-// const [comProfile, setComProfile] = useState(sessionStorage.getItem("Comprofile")?true:false);
-// console.log(userprofile)
-
-// useEffect(() => {
-//   if (userprofile || comProfile) {
-//     fetchData();
-
-//     // Clear sessionStorage and update state
-//     sessionStorage.removeItem("profile");
-//     sessionStorage.removeItem("Comprofile");
-//     setUserprofile(false);
-//     setComProfile(false);
-//   }
-
-//   console.log("Fetching profile data");
-// }, [token, userprofile, comProfile]);
-
-// fetchData();
-
-
 
   // Fetch profile and job details together
   useEffect(() => {
@@ -312,12 +269,6 @@ function PopOver() {
           setUsername(profileResponse.data.first_name);
         }
         console.log(companyphoto)
-
-
-        // Fetch job details
-        // const jobResponse = await axios.get(`${config.base_url}/api/v1/app/jobs/`);
-        // setJobDetails(jobResponse.data);
-
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -350,22 +301,7 @@ function PopOver() {
     }
   }, [jobDetails, profile]);
 
-  // useEffect(() => {
-  //   if (location.pathname === '/eligible-jobs' && showBadge) {
-  //     sessionStorage.setItem("has_seen_badge", "true");
-  //     setShowBadge(false); // Hide badge after viewing New Jobs
-  //   }
-  // }, [location.pathname, showBadge]);
-
-  // if(userphotos){
-  //   setPhoto(userphotos)
-  // }else{
-
-  // }
-
-
-  
-
+ 
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -373,17 +309,21 @@ function PopOver() {
         <div>
           {userType === "company" ? (
             <img
-              src={Companyphoto ? 
-                Companyphoto :
-                companyphoto || 'default-image.jpg'}
+              src={
+                Companyphoto 
+      ? Companyphoto 
+      : PersonDefaultImg 
+     }
               alt="Profile"
               className="w-12 h-12 sm:w-16 sm:h-16 lg:w-12 lg:h-12 rounded-full top-5 right-2 sm:top-4 sm:right-4"
             />
           )
           : userType === "candidate" ? (
             <img
-              src={userphotos ? 
-                userphotos : photo}
+              src={userphotos 
+                ? userphotos || photo || PersonDefaultImg
+                : PersonDefaultImg 
+                }
               alt=" Profile"
               className="w-12 h-12 sm:w-16 sm:h-16 lg:w-12 lg:h-12 rounded-full top-5 right-2 sm:top-4 sm:right-4"
               

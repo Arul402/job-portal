@@ -15,6 +15,7 @@ import {
 } from "../ui/select";
 import { State } from "country-state-city";
 import config from "../../functions/config";
+import { City } from "country-state-city";
 // import config from "@/config"; // Assuming config.base_url is here
 
 const JobListing = () => {
@@ -32,6 +33,10 @@ const JobListing = () => {
   const [selectedCompany, setSelectedCompany] = useState("");
   const [filteredJobs1, setFilteredJobs1] = useState([]);
   const [uniqueCompanies, setUniqueCompanies] = useState([]);
+
+
+  const tamilNaduCities = City.getCitiesOfState("IN", "TN");
+console.log(tamilNaduCities);
 
   useEffect(() => {
     const fetchJobDetails = async () => {
@@ -87,7 +92,9 @@ const JobListing = () => {
         job.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
         job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         job.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        job.employment_type.toLowerCase().includes(searchQuery.toLowerCase())
+        
+        job.employment_type.toLowerCase().includes(searchQuery.toLowerCase()) &&
+        (location ? job.location.toLowerCase() === location.toLowerCase() : true)
     );
     setFilteredJobs(filtered);
   };
@@ -110,6 +117,17 @@ const handleCompanyFilterChange = (company) => {
     // Update the filtered jobs state with the jobs that match the selected company
     setFilteredJobs(filtered);
 };
+const handleLocationFilterChange = (selectedLocation) => {
+  setLocation(selectedLocation); // Update selected location state
+
+  // Filter jobs based on the selected location
+  const filtered = jobDetails.filter((job) => job.location === selectedLocation);
+
+  // Update the filtered jobs state with the jobs that match the selected location
+  setFilteredJobs(filtered);
+};
+
+
 
   if (loading) {
     return <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />;
@@ -135,20 +153,41 @@ const handleCompanyFilterChange = (company) => {
       </form>
 
       <div className="flex flex-col sm:flex-row gap-2">
-        <Select value={location} onValueChange={setLocation}>
+        {/* <Select value={location} onValueChange={setLocation}>
           <SelectTrigger>
             <SelectValue placeholder="Filter by Location" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              {State.getStatesOfCountry("IN").map(({ name }) => (
+              {tamilNaduCities.map(({ name }) => (
                 <SelectItem key={name} value={name}>
                   {name}
                 </SelectItem>
               ))}
             </SelectGroup>
           </SelectContent>
-        </Select>
+        </Select> */}
+
+<Select value={location} onValueChange={handleLocationFilterChange}>
+  <SelectTrigger>
+    <SelectValue placeholder="Filter by Location">
+      {location || "Filter by Location"}
+    </SelectValue>
+  </SelectTrigger>
+  <SelectContent>
+    <SelectGroup>
+      {tamilNaduCities.map(({ name }, index) => {
+        console.log("Location:", name, "Index:", index); // Debugging
+        return (
+          <SelectItem key={index} value={name}>
+            {name}
+          </SelectItem>
+        );
+      })}
+    </SelectGroup>
+  </SelectContent>
+</Select>
+
 
         <Select value={selectedCompany} onValueChange={handleCompanyFilterChange}>
           <SelectTrigger>

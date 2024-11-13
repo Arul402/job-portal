@@ -32,11 +32,6 @@ function ChangeCompanyPassword() {
     e.preventDefault();
     const validationError = validatePassword(newPassword);
     if (validationError) {
-      // toast({
-      //   title: "Error",
-      //   description: validationError,
-      //   variant: "destructive",
-      // });
       toast.error(validationError);
       return;
     }
@@ -50,21 +45,11 @@ function ChangeCompanyPassword() {
       );
 
       if (response.status === 200) {
-        // toast({
-        //   title: "Success",
-        //   description: "Password changed successfully!",
-        //   variant: "positive",
-        // });
         toast.success("Password changed successfully!");
         setIsOpen(false);
         navigate('/company-profile');
       }
     } catch (error) {
-      // toast({
-      //   title: "Error",
-      //   description: "Failed to change password. Check your old password.",
-      //   variant: "destructive",
-      // });
       toast.error("Failed to change password. Check your old password.");
     } finally {
       setLoading(false);
